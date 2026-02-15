@@ -1,129 +1,138 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Para Mafe ❤️</title>
+<title>Para Mafe 💖</title>
 
 <style>
-body {
-  margin: 0;
-  overflow: hidden;
-  background: black;
-  font-family: Arial, sans-serif;
-  color: white;
-  text-align: center;
+body{
+    margin:0;
+    padding:0;
+    background:black;
+    overflow:hidden;
+    font-family:Arial, sans-serif;
+    color:white;
+    text-align:center;
 }
 
-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -1;
+/* Galaxia */
+.stars{
+    width:100%;
+    height:100vh;
+    background:transparent;
+    position:absolute;
 }
 
-.start {
-  position: absolute;
-  top: 45%;
-  width: 100%;
-  font-size: 28px;
-  color: hotpink;
-  cursor: pointer;
+.stars::after{
+    content:"";
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:white;
+    box-shadow:
+    50px 80px white, 150px 200px white, 300px 400px white,
+    500px 100px white, 700px 300px white, 900px 200px white,
+    200px 600px white, 400px 500px white, 800px 700px white;
+    animation:blink 2s infinite alternate;
 }
 
-.content {
-  display: none;
-  position: absolute;
-  top: 35%;
-  width: 100%;
+@keyframes blink{
+    from{opacity:0.3;}
+    to{opacity:1;}
 }
 
-.heart {
-  font-size: 70px;
-  color: red;
-  animation: beat 1s infinite;
+/* Contenido */
+.container{
+    position:relative;
+    top:20%;
+    z-index:2;
 }
 
-@keyframes beat {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.4); }
-  100% { transform: scale(1); }
+/* Corazón */
+.heart{
+    font-size:80px;
+    animation:beat 1s infinite;
 }
 
-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background: hotpink;
-  border: none;
-  border-radius: 20px;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
+@keyframes beat{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.2);}
+    100%{transform:scale(1);}
+}
+
+#text{
+    margin-top:20px;
+    font-size:22px;
+}
+
+/* Botón */
+button{
+    margin-top:30px;
+    padding:10px 20px;
+    font-size:18px;
+    border:none;
+    border-radius:20px;
+    background:#ff4d6d;
+    color:white;
+    cursor:pointer;
+}
+
+.hidden{
+    display:none;
+    margin-top:20px;
+    font-size:20px;
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="stars"></canvas>
+<div class="stars"></div>
 
-<div class="start" onclick="startLove()">
-💖 Haz clic aquí Mafe 💖
-</div>
+<div class="container">
+    <h1>Para ti 💖</h1>
+    <div class="heart">❤️</div>
+    <div id="text"></div>
 
-<div class="content" id="main">
-<div class="heart">❤️</div>
-<h1 id="text"></h1>
-
-<button onclick="window.open('https://www.youtube.com/results?search_query=Locos+Leon+Larregui')">
-Escucha nuestra canción 🎵
-</button>
+    <button onclick="mostrarMensaje()">Presiona si me amas 😌</button>
+    <div id="sorpresa" class="hidden">
+        Sabía que sí... y yo te amo muchísimo más 💞🌙
+    </div>
 </div>
 
 <script>
-const canvas = document.getElementById("stars");
-const ctx = canvas.getContext("2d");
+const frases = [
+"Desde que llegaste a mi vida...",
+"todo cambió para mejor...",
+"y no quiero perderte nunca 💖"
+];
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let stars = [];
-for (let i = 0; i < 200; i++) {
-  stars.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    size: Math.random() * 2
-  });
-}
-
-function drawStars() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "white";
-  stars.forEach(star => {
-    ctx.fillRect(star.x, star.y, star.size, star.size);
-    star.y += 0.5;
-    if (star.y > canvas.height) star.y = 0;
-  });
-  requestAnimationFrame(drawStars);
-}
-drawStars();
-
-function startLove() {
-  document.querySelector(".start").style.display = "none";
-  document.getElementById("main").style.display = "block";
-  typeWriter();
-}
-
-let message = "Mafe 💖\n\nTe amooooo mucho mi amor,\neres el amor de mi vida ✨";
 let i = 0;
+let j = 0;
+let actual = "";
+let escribiendo = true;
 
-function typeWriter() {
-  if (i < message.length) {
-    document.getElementById("text").innerHTML += 
-      message.charAt(i) === "\n" ? "<br>" : message.charAt(i);
-    i++;
-    setTimeout(typeWriter, 60);
-  }
+function escribir(){
+    if(i < frases.length){
+        if(j < frases[i].length){
+            actual += frases[i][j];
+            document.getElementById("text").innerHTML = actual;
+            j++;
+            setTimeout(escribir,50);
+        }else{
+            i++;
+            j = 0;
+            actual += "<br><br>";
+            setTimeout(escribir,500);
+        }
+    }
 }
+
+function mostrarMensaje(){
+    document.getElementById("sorpresa").classList.remove("hidden");
+}
+
+escribir();
 </script>
 
 </body>
