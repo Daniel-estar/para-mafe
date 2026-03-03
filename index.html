@@ -2,94 +2,98 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Para Mafe 💖</title>
 
 <style>
 body{
-  margin:0;
-  padding:0;
-  height:100vh;
-  overflow:hidden;
-  font-family:Arial, sans-serif;
-  color:white;
-  text-align:center;
-
-  /* FONDO BONITO CON COLOR */
-  background:linear-gradient(to bottom, #1a0026, #4b0082, #000428);
+    margin:0;
+    padding:0;
+    background:black;
+    overflow:hidden;
+    font-family:Arial, sans-serif;
+    color:white;
+    text-align:center;
 }
 
-/* ESTRELLAS */
+/* GALAXIA */
 .stars{
-  position:absolute;
-  width:100%;
-  height:100%;
-  background:transparent;
+    width:100%;
+    height:100vh;
+    position:absolute;
+    background:black;
 }
 
 .stars::after{
-  content:"";
-  position:absolute;
-  width:2px;
-  height:2px;
-  background:white;
-  box-shadow:
-  100px 150px white,
-  200px 300px white,
-  400px 250px white,
-  600px 100px white,
-  800px 350px white,
-  1000px 200px white,
-  300px 500px white,
-  700px 600px white,
-  900px 450px white;
-  animation:parpadeo 2s infinite alternate;
+    content:"";
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:white;
+    box-shadow:
+    50px 80px white,
+    150px 200px white,
+    300px 400px white,
+    500px 100px white,
+    700px 300px white,
+    900px 200px white,
+    200px 600px white,
+    400px 500px white,
+    800px 700px white,
+    1000px 350px white;
+    animation:blink 2s infinite alternate;
 }
 
-@keyframes parpadeo{
-  from{opacity:0.3;}
-  to{opacity:1;}
+@keyframes blink{
+    from{opacity:0.3;}
+    to{opacity:1;}
 }
 
 /* CONTENIDO */
-.contenido{
-  position:relative;
-  top:25vh;
-  z-index:2;
+.container{
+    position:relative;
+    top:20%;
+    z-index:2;
 }
 
-/* CORAZÓN */
-.corazon{
-  font-size:120px;
-  animation:latir 1s infinite;
+/* CORAZÓN LATIENDO */
+.heart{
+    font-size:100px;
+    animation:beat 1s infinite;
 }
 
-@keyframes latir{
-  0%{transform:scale(1);}
-  50%{transform:scale(1.25);}
-  100%{transform:scale(1);}
+@keyframes beat{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.2);}
+    100%{transform:scale(1);}
 }
 
-/* TEXTO */
-p{
-  font-size:22px;
-  margin:20px;
+#text{
+    margin-top:20px;
+    font-size:22px;
 }
 
 /* BOTÓN */
 button{
-  margin-top:20px;
-  padding:12px 25px;
-  font-size:18px;
-  border:none;
-  border-radius:25px;
-  background:linear-gradient(to right, #ff4e50, #ff6a88);
-  color:white;
-  cursor:pointer;
-  transition:0.3s;
+    margin-top:30px;
+    padding:12px 25px;
+    font-size:18px;
+    border:none;
+    border-radius:25px;
+    background:#ff4d6d;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
 }
 
 button:hover{
-  transform:scale(1.1);
+    transform:scale(1.1);
+}
+
+.hidden{
+    display:none;
+    margin-top:20px;
+    font-size:20px;
 }
 </style>
 </head>
@@ -98,30 +102,54 @@ button:hover{
 
 <div class="stars"></div>
 
-<div class="contenido">
-  <h1>Para ti, mi amor 💖</h1>
+<div class="container">
+    <h1>Para ti 💖</h1>
 
-  <div class="corazon">❤️</div>
+    <div class="heart">❤️</div>
 
-  <p>
-    Desde que llegaste a mi vida…<br>
-    todo tiene más sentido 🌙✨<br>
-    y quiero que sigamos escribiendo nuestra historia juntos 💞
-  </p>
+    <div id="text"></div>
 
-  <button onclick="mostrar()">
-    Presiona si me amas 😌
-  </button>
+    <button onclick="mostrarMensaje()">
+        Presiona si me amas 😌
+    </button>
 
-  <p id="mensaje" style="display:none; margin-top:20px;">
-    Yo te amo muchísimo más de lo que imaginas 💖🌌
-  </p>
+    <div id="sorpresa" class="hidden">
+        Sabía que sí... y yo te amo muchísimo más 💞🌙
+    </div>
 </div>
 
 <script>
-function mostrar(){
-  document.getElementById("mensaje").style.display="block";
+const frases = [
+"Desde que llegaste a mi vida...",
+"todo cambió para mejor...",
+"y no quiero perderte nunca 💖"
+];
+
+let i = 0;
+let j = 0;
+let actual = "";
+
+function escribir(){
+    if(i < frases.length){
+        if(j < frases[i].length){
+            actual += frases[i][j];
+            document.getElementById("text").innerHTML = actual;
+            j++;
+            setTimeout(escribir,50);
+        }else{
+            i++;
+            j = 0;
+            actual += "<br><br>";
+            setTimeout(escribir,500);
+        }
+    }
 }
+
+function mostrarMensaje(){
+    document.getElementById("sorpresa").classList.remove("hidden");
+}
+
+escribir();
 </script>
 
 </body>
